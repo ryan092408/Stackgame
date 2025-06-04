@@ -10,6 +10,7 @@ public class MovingCube : MonoBehaviour
     public static MovingCube CurrentCube { get; private set; }
     public static MovingCube LastCube { get; private set; }
     public MoveDirection MoveDirection { get; set; }
+    [SerializeField] private GameObject perfectIndicatorPrefab;
 
     [SerializeField]
     private float moveSpeed = 1f;
@@ -20,9 +21,15 @@ public class MovingCube : MonoBehaviour
         }
         moveSpeed = 0;
         float hangover = GetHangover();
-        if (hangover==null)
+        if (Math.Abs(hangover) < 0.055)
         {
             hangover = 0;
+            Vector3 between = (LastCube.transform.position + CurrentCube.transform.position) / 2f;
+            Vector3 indicatorPosition = new Vector3(between.x, between.y, between.z);
+
+            GameObject indicator = Instantiate(perfectIndicatorPrefab, indicatorPosition, Quaternion.identity);
+            indicator.transform.localScale = new Vector3(CurrentCube.transform.localScale.x*0.1f + 0.02f , 1f, CurrentCube.transform.localScale.z*0.1f + 0.02f); // adjust to match cube width
+
         }
         float max = MoveDirection == MoveDirection.Z ? LastCube.transform.localScale.z : LastCube.transform.localScale.x;
         if (Mathf.Abs(hangover) >= max)

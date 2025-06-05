@@ -14,9 +14,11 @@ public class MovingCube : MonoBehaviour
 
     [SerializeField]
     private float moveSpeed = 1f;
+    
     internal void Stop()
     {
-        if (gameObject.name == "Start") {
+        if (gameObject.name == "Start")
+        {
             return;
         }
         moveSpeed = 0;
@@ -28,7 +30,7 @@ public class MovingCube : MonoBehaviour
             Vector3 indicatorPosition = new Vector3(between.x, between.y, between.z);
 
             GameObject indicator = Instantiate(perfectIndicatorPrefab, indicatorPosition, Quaternion.identity);
-            indicator.transform.localScale = new Vector3(CurrentCube.transform.localScale.x*0.1f + 0.02f , 1f, CurrentCube.transform.localScale.z*0.1f + 0.02f); // adjust to match cube width
+            indicator.transform.localScale = new Vector3(CurrentCube.transform.localScale.x * 0.1f + 0.02f, 1f, CurrentCube.transform.localScale.z * 0.1f + 0.02f); // adjust to match cube width
 
         }
         float max = MoveDirection == MoveDirection.Z ? LastCube.transform.localScale.z : LastCube.transform.localScale.x;
@@ -123,9 +125,18 @@ public class MovingCube : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(MoveDirection == MoveDirection.Z)
-            transform.position += transform.forward * Time.deltaTime * moveSpeed;
-        else
-            transform.position += transform.right * Time.deltaTime * moveSpeed;
+        if (moveSpeed > 0)
+{
+    float pingPong = Mathf.PingPong(Time.time * moveSpeed, 3f) - 1.5f; // range: [-1.5, 1.5]
+    if (MoveDirection == MoveDirection.Z)
+    {
+        transform.position = new Vector3(LastCube.transform.position.x, transform.position.y, LastCube.transform.position.z + pingPong);
+    }
+    else
+    {
+        transform.position = new Vector3(LastCube.transform.position.x + pingPong, transform.position.y, LastCube.transform.position.z);
+    }
+}
+
     }
 }

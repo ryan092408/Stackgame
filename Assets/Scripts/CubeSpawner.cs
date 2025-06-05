@@ -27,8 +27,7 @@ public class CubeSpawner : MonoBehaviour
             float z = moveDirection == MoveDirection.Z ? transform.position.z : MovingCube.LastCube.transform.position.z;
             cube.transform.position = new Vector3(x, MovingCube.LastCube.transform.position.y + cubePrefab.transform.localScale.y, z);
             follow.transform.position = new Vector3(0, MovingCube.LastCube.transform.position.y, 0);
-            //float tempY = score.transform.position.y;
-            //score.transform.position = new Vector3(score.transform.position.x,tempY + MovingCube.LastCube.transform.position.y, score.transform.position.z);
+            
         }
         else {
             cube.transform.position = transform.position;

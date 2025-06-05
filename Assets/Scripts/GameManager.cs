@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") || Input.GetKeyDown("space")) {
             
             if(MovingCube.CurrentCube!=null)
                 MovingCube.CurrentCube.Stop();
